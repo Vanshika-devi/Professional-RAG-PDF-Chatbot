@@ -1,0 +1,23 @@
+# Python
+venv/
+__pycache__/
+*.pyc
+
+# Vector DB
+chroma_db/
+
+# Uploaded PDFs
+uploads/
+
+# Environment
+.env
+
+# Frontend
+node_modules/
+dist/
+
+# VS Code
+.vscode/
+
+# OS files
+.DS_Store
