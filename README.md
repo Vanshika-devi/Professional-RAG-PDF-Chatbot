@@ -279,6 +279,62 @@ Request Body:
 
 ---
 
+# OCR Support
+
+This project also supports OCR (Optical Character Recognition) for scanned and image-based PDFs.
+
+## OCR Features
+
+* Extracts text from scanned PDFs
+* Supports image-based documents
+* OCR fallback when normal text extraction fails
+* Uses Tesseract OCR with PyTesseract
+
+---
+
+# Install OCR Dependencies
+
+```bash
+pip install pytesseract pillow pdf2image
+```
+
+---
+
+# Install Tesseract OCR
+
+Download and install:
+
+[https://github.com/UB-Mannheim/tesseract/wiki](https://github.com/UB-Mannheim/tesseract/wiki)
+
+During installation:
+
+* Enable "Add to PATH"
+* Install for all users if possible
+
+---
+
+# OCR Workflow
+
+```text
+PDF
+ ↓
+Text Extraction
+ ↓
+If No Text Found
+ ↓
+OCR Processing
+ ↓
+Extracted Text
+ ↓
+Embeddings
+ ↓
+Vector Search
+ ↓
+LLM Response
+```
+
+---
+
 # Future Improvements
 
 * JWT Authentication
