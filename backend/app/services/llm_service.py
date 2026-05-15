@@ -1,4 +1,8 @@
-from langchain_community.llms import Ollama
+# backend/app/services/llm_service.py
+
+from langchain_community.llms import (
+    Ollama
+)
 
 
 def get_llm():

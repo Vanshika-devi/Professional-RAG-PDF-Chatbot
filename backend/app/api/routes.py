@@ -1,17 +1,23 @@
-from fastapi import APIRouter
+# backend/app/api/routes.py
+
+from fastapi import (
+    APIRouter,
+    UploadFile,
+    File
+)
+
 from pydantic import BaseModel
 
 from app.services.rag_pipeline import (
-    ask_question,
-    process_pdf
+    process_pdf,
+    ask_question
 )
-
-from fastapi import UploadFile, File
 
 router = APIRouter()
 
 
 class QuestionRequest(BaseModel):
+
     question: str
 
 
@@ -19,7 +25,8 @@ class QuestionRequest(BaseModel):
 def home():
 
     return {
-        "message": "RAG PDF Chatbot Backend Running"
+        "message":
+        "RAG PDF Chatbot Backend Running"
     }
 
 
@@ -40,12 +47,8 @@ def ask(
     request: QuestionRequest
 ):
 
-    print("Question Received:", request.question)
+    response = ask_question(
+        request.question
+    )
 
-    answer = ask_question(request.question)
-
-    print("Generated Answer:", answer)
-
-    return {
-        "answer": answer
-    }
+    return response

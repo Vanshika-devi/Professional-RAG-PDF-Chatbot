@@ -2,12 +2,24 @@
 
 fastapi
 uvicorn
+python-multipart
+
 langchain
 langchain-community
 langchain-core
 langchain-text-splitters
+
 chromadb
+
+pymupdf
 pypdf
+
 sentence-transformers
-python-multipart
+transformers
+torch
+
 ollama
+
+pytesseract
+pillow
+pdf2image
