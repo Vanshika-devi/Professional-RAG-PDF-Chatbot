@@ -2,7 +2,7 @@
 
 An AI-powered **RAG (Retrieval-Augmented Generation) PDF Chatbot** built using **FastAPI, React, LangChain, ChromaDB, and Ollama**.
 
-This application allows users to upload PDFs and intelligently chat with their documents using local AI models.
+This application allows users to upload a PDF and intelligently chat with the document using local AI models.
 
 The system supports:
 
@@ -17,7 +17,7 @@ The system supports:
 
 # 🚀 Key Highlights
 
-- Universal PDF Question Answering
+- Universal Single-Document PDF Question Answering
 - OCR Support for Scanned PDFs
 - JWT Authentication System
 - Semantic Search using ChromaDB
@@ -43,7 +43,7 @@ The system supports:
 - 🎨 React frontend with modern UI
 - 🧩 LangChain integration
 - 🖥 Local LLM support using Ollama + Phi3
-- 📚 Multi-domain PDF understanding
+- 📚 Universal single-document PDF understanding
 - 🔍 Resume information extraction
 - 🧾 Technical note understanding
 - 📑 Research paper summarization
@@ -117,12 +117,12 @@ The system supports:
 
 - Contextual Question Answering
 - Semantic Retrieval
-- Multi-domain PDF Understanding
 - Resume Parsing
 - Notes Question Answering
 - OCR-based Document Understanding
 - Technical Document QA
 - AI-powered Summarization
+- Semantic Context Matching
 
 ---
 
@@ -465,7 +465,7 @@ POST /ask
 # 🧪 Example Workflow
 
 1. User logs in
-2. Uploads PDF
+2. Uploads a PDF
 3. PDF text is extracted
 4. Embeddings are generated
 5. Chunks stored in ChromaDB
