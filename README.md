@@ -1,33 +1,55 @@
 # 🚀 RAG PDF Chatbot
 
-An AI-powered RAG (Retrieval-Augmented Generation) PDF Chatbot built using FastAPI, React, LangChain, ChromaDB, and Ollama.
+An AI-powered **RAG (Retrieval-Augmented Generation) PDF Chatbot** built using **FastAPI, React, LangChain, ChromaDB, and Ollama**.
 
-This application allows users to upload PDFs and chat with their documents intelligently using local AI models.
+This application allows users to upload PDFs and intelligently chat with their documents using local AI models.
+
+The system supports:
+
+- 📄 Resumes
+- 📚 Notes
+- 📑 Assignments
+- 📖 Research Papers
+- 🧾 OCR PDFs
+- 💻 Technical Documentation
+
+---
+
+# 🚀 Key Highlights
+
+- Universal PDF Question Answering
+- OCR Support for Scanned PDFs
+- JWT Authentication System
+- Semantic Search using ChromaDB
+- Local LLM Inference with Phi3
+- Works Fully Offline
+- Optimized for Low-End PCs (8GB RAM)
+- AI-Powered Contextual Understanding
+- Resume & Notes Intelligence System
 
 ---
 
 # ✨ Features
 
-* 🔐 JWT Authentication System
-* 📄 Upload and process PDFs
-* 🤖 AI-powered contextual question answering
-* 🧠 Retrieval-Augmented Generation (RAG)
-* 🔎 Semantic search using vector embeddings
-* 🗂 ChromaDB vector database
-* 🖼 OCR support for scanned PDFs
-* 💬 Modern chat interface
-* ⚡ FastAPI backend
-* 🎨 React frontend with modern UI
-* 🧩 LangChain integration
-* 🖥 Local LLM support using Ollama + Phi3
-* 📚 Works with:
-
-  * Resumes
-  * Notes
-  * Research papers
-  * Assignments
-  * Technical documentation
-  * OCR PDFs
+- 🔐 JWT Authentication System
+- 📄 Upload and process PDFs
+- 🤖 AI-powered contextual question answering
+- 🧠 Retrieval-Augmented Generation (RAG)
+- 🔎 Semantic search using vector embeddings
+- 🗂 ChromaDB vector database
+- 🖼 OCR support for scanned PDFs
+- 💬 Modern responsive chat interface
+- ⚡ FastAPI backend
+- 🎨 React frontend with modern UI
+- 🧩 LangChain integration
+- 🖥 Local LLM support using Ollama + Phi3
+- 📚 Multi-domain PDF understanding
+- 🔍 Resume information extraction
+- 🧾 Technical note understanding
+- 📑 Research paper summarization
+- 🔒 Protected API routes using JWT
+- 📂 Local PDF storage system
+- 🧠 Semantic chunk retrieval pipeline
 
 ---
 
@@ -35,28 +57,72 @@ This application allows users to upload PDFs and chat with their documents intel
 
 ## Frontend
 
-* React.js
-* Vite
-* Axios
-* Framer Motion
-* React Hot Toast
+- React.js
+- Vite
+- JavaScript (ES6+)
+- Axios
+- Framer Motion
+- React Hot Toast
+- CSS3
+- Responsive UI Design
+- Local Storage Authentication
+- Component-Based Architecture
+
+---
 
 ## Backend
 
-* FastAPI
-* Python
-* JWT Authentication
-* LangChain
-* ChromaDB
-* PyMuPDF
-* OCR (Tesseract)
+- FastAPI
+- Python
+- REST APIs
+- JWT Authentication
+- Python-Jose
+- Passlib
+- Bcrypt
+- MongoDB
+- PyMongo
+- Python Dotenv
+- Pydantic
+- Uvicorn
 
-## AI / RAG
+---
 
-* Ollama
-* Phi3
-* HuggingFace Embeddings
-* LangChain RetrievalQA
+## AI / RAG Stack
+
+- LangChain
+- Retrieval-Augmented Generation (RAG)
+- ChromaDB Vector Database
+- Semantic Search
+- HuggingFace Embeddings
+- Sentence Transformers
+- RecursiveCharacterTextSplitter
+- RetrievalQA Chain
+- Ollama
+- Phi3 LLM
+
+---
+
+## PDF Processing & OCR
+
+- PyMuPDF (fitz)
+- OCR Text Extraction
+- Pytesseract
+- Pillow (PIL)
+- PDF Chunking
+- Semantic Embedding Generation
+
+---
+
+# 🧠 AI Capabilities
+
+- Contextual Question Answering
+- Semantic Retrieval
+- Multi-domain PDF Understanding
+- Resume Parsing
+- Notes Question Answering
+- OCR-based Document Understanding
+- Technical Document QA
+- AI-powered Summarization
 
 ---
 
@@ -76,8 +142,8 @@ backend/uploads/
 
 The backend extracts text using:
 
-* PyMuPDF
-* OCR fallback using Tesseract for scanned PDFs
+- PyMuPDF
+- OCR fallback using Tesseract for scanned PDFs
 
 ---
 
@@ -128,6 +194,7 @@ rag-pdf-chatbot/
 │   ├── app/
 │   │   ├── api/
 │   │   ├── auth/
+│   │   ├── core/
 │   │   ├── database/
 │   │   ├── models/
 │   │   ├── services/
@@ -150,6 +217,7 @@ rag-pdf-chatbot/
 │   ├── package.json
 │   └── vite.config.js
 │
+├── .gitignore
 └── README.md
 ```
 
@@ -201,7 +269,7 @@ pip install -r requirements.txt
 
 Download Ollama:
 
-[https://ollama.com](https://ollama.com)
+👉 https://ollama.com
 
 ---
 
@@ -215,7 +283,13 @@ ollama pull phi3
 
 ## 7. Create `.env`
 
-Inside `backend/.env`
+Inside:
+
+```bash
+backend/.env
+```
+
+Add:
 
 ```env
 OLLAMA_MODEL=phi3
@@ -279,10 +353,11 @@ http://localhost:5173
 
 # 🔐 Authentication Features
 
-* User Signup
-* User Login
-* JWT Token Authentication
-* Protected API Routes
+- User Signup
+- User Login
+- JWT Token Authentication
+- Protected API Routes
+- Secure Password Hashing
 
 ---
 
@@ -295,6 +370,7 @@ What is the candidate name?
 What skills are mentioned?
 What projects are listed?
 What is the CGPA?
+What technologies are used?
 ```
 
 ---
@@ -305,6 +381,7 @@ What is the CGPA?
 Explain cache coherence.
 What is pipelining?
 Explain checksum method.
+Explain Amdahl’s Law.
 ```
 
 ---
@@ -314,6 +391,7 @@ Explain checksum method.
 ```txt
 Summarize the paper.
 What methodology is used?
+What are the conclusions?
 ```
 
 ---
@@ -322,45 +400,15 @@ What methodology is used?
 
 ## Login Page
 
-* Modern authentication UI
-* JWT-based authentication
+Modern JWT authentication system.
 
 ## Upload System
 
-* Upload PDF documents
-* AI-ready processing
+Upload and process PDFs intelligently.
 
 ## Chat Interface
 
-* Conversational AI experience
-* Real-time answers from PDFs
-
----
-
-# 🔥 Future Improvements
-
-* Multi-PDF support
-* Chat history
-* Streaming AI responses
-* Source citations
-* Dark/Light themes
-* Cloud deployment
-* User-specific vector databases
-* Drag and drop upload
-* PDF preview
-* Speech-to-text input
-
----
-
-# 🧪 Example Workflow
-
-1. User logs in
-2. Uploads PDF
-3. PDF text is extracted
-4. Embeddings are generated
-5. Chunks stored in ChromaDB
-6. User asks questions
-7. AI answers using document context
+Real-time AI-powered conversations with documents.
 
 ---
 
@@ -398,6 +446,34 @@ POST /ask
 
 ---
 
+# 🔥 Future Improvements
+
+- Multi-PDF support
+- Chat history
+- Streaming AI responses
+- Source citations
+- Cloud deployment
+- User-specific vector databases
+- Drag and drop upload
+- PDF preview
+- Speech-to-text input
+- AI-generated summaries
+- PDF highlighting
+
+---
+
+# 🧪 Example Workflow
+
+1. User logs in
+2. Uploads PDF
+3. PDF text is extracted
+4. Embeddings are generated
+5. Chunks stored in ChromaDB
+6. User asks questions
+7. AI answers using document context
+
+---
+
 # 🧠 AI Model
 
 This project uses:
@@ -412,13 +488,11 @@ Optimized for low-end laptops with 8GB RAM.
 
 # 👩‍💻 Author
 
-Vanshika Devi
+## Vanshika Devi
 
 GitHub:
 
-```txt
-https://github.com/Vanshika-devi
-```
+👉 https://github.com/Vanshika-devi
 
 ---
 
