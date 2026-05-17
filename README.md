@@ -145,6 +145,8 @@ rag-pdf-chatbot/
 │   │   ├── pages/
 │   │   └── styles/
 │   │
+│   ├── App.jsx
+│   ├── main.jsx
 │   ├── package.json
 │   └── vite.config.js
 │
