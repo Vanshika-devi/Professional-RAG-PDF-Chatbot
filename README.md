@@ -1,80 +1,150 @@
-# RAG PDF Chatbot
+# 🚀 RAG PDF Chatbot
 
-An AI-powered Retrieval-Augmented Generation (RAG) chatbot that allows users to upload PDF documents and ask contextual questions based on the uploaded content.
+An AI-powered RAG (Retrieval-Augmented Generation) PDF Chatbot built using FastAPI, React, LangChain, ChromaDB, and Ollama.
 
-Built using React, FastAPI, LangChain, ChromaDB, HuggingFace Embeddings, and Ollama.
-
----
-
-# Features
-
-* Upload PDF documents
-* Ask questions from uploaded PDFs
-* Retrieval-Augmented Generation (RAG)
-* Semantic search using embeddings
-* Vector database integration with ChromaDB
-* Local LLM inference using Ollama Phi3
-* FastAPI backend APIs
-* Modern React frontend UI
-* Persistent PDF uploads
-* Context-aware AI responses
+This application allows users to upload PDFs and chat with their documents intelligently using local AI models.
 
 ---
 
-# Tech Stack
+# ✨ Features
+
+* 🔐 JWT Authentication System
+* 📄 Upload and process PDFs
+* 🤖 AI-powered contextual question answering
+* 🧠 Retrieval-Augmented Generation (RAG)
+* 🔎 Semantic search using vector embeddings
+* 🗂 ChromaDB vector database
+* 🖼 OCR support for scanned PDFs
+* 💬 Modern chat interface
+* ⚡ FastAPI backend
+* 🎨 React frontend with modern UI
+* 🧩 LangChain integration
+* 🖥 Local LLM support using Ollama + Phi3
+* 📚 Works with:
+
+  * Resumes
+  * Notes
+  * Research papers
+  * Assignments
+  * Technical documentation
+  * OCR PDFs
+
+---
+
+# 🛠 Tech Stack
 
 ## Frontend
 
 * React.js
-* CSS3
-* Fetch API
 * Vite
+* Axios
+* Framer Motion
+* React Hot Toast
 
 ## Backend
 
 * FastAPI
 * Python
+* JWT Authentication
 * LangChain
 * ChromaDB
-* Ollama
 * PyMuPDF
+* OCR (Tesseract)
 
-## AI / ML
+## AI / RAG
 
+* Ollama
+* Phi3
 * HuggingFace Embeddings
-* Sentence Transformers
-* RetrievalQA
-* Semantic Search
+* LangChain RetrievalQA
 
 ---
 
-# Project Structure
+# 🧠 How It Works
 
-```text
+## Step 1 — Upload PDF
+
+The uploaded PDF is stored inside:
+
+```bash
+backend/uploads/
+```
+
+---
+
+## Step 2 — Extract Text
+
+The backend extracts text using:
+
+* PyMuPDF
+* OCR fallback using Tesseract for scanned PDFs
+
+---
+
+## Step 3 — Chunking
+
+The document is split into semantic chunks using:
+
+```python
+RecursiveCharacterTextSplitter
+```
+
+---
+
+## Step 4 — Generate Embeddings
+
+Embeddings are created using:
+
+```python
+sentence-transformers/all-MiniLM-L6-v2
+```
+
+---
+
+## Step 5 — Store in ChromaDB
+
+Embeddings are stored in:
+
+```bash
+backend/chroma_db/
+```
+
+---
+
+## Step 6 — Ask Questions
+
+User questions are semantically matched against stored chunks.
+
+The relevant context is sent to the Phi3 model through Ollama.
+
+---
+
+# 📂 Project Structure
+
+```bash
 rag-pdf-chatbot/
 │
 ├── backend/
 │   ├── app/
 │   │   ├── api/
-│   │   │   └── routes.py
-│   │   │
+│   │   ├── auth/
+│   │   ├── database/
+│   │   ├── models/
 │   │   ├── services/
-│   │   │   ├── embeddings.py
-│   │   │   ├── llm_service.py
-│   │   │   ├── pdf_loader.py
-│   │   │   ├── rag_pipeline.py
-│   │   │   └── vector_store.py
-│   │   │
-│   │   └── main.py
+│   │   └── utils/
 │   │
-│   ├── chroma_db/
 │   ├── uploads/
+│   ├── chroma_db/
 │   ├── requirements.txt
-│   └── venv/
+│   └── .env
 │
 ├── frontend/
 │   ├── src/
-│   ├── public/
+│   │   ├── api/
+│   │   ├── components/
+│   │   ├── pages/
+│   │   └── styles/
+│   │
 │   ├── package.json
 │   └── vite.config.js
 │
@@ -83,32 +153,25 @@ rag-pdf-chatbot/
 
 ---
 
-# Installation
+# ⚙️ Backend Setup
 
-## 1. Clone Repository
-
-```bash
-git clone <repository-url>
-cd rag-pdf-chatbot
-```
-
----
-
-# Backend Setup
-
-## 2. Navigate to Backend
+## 1. Navigate to Backend
 
 ```bash
 cd backend
 ```
 
-## 3. Create Virtual Environment
+---
+
+## 2. Create Virtual Environment
 
 ```bash
 python -m venv venv
 ```
 
-## 4. Activate Virtual Environment
+---
+
+## 3. Activate Virtual Environment
 
 ### Windows
 
@@ -116,7 +179,7 @@ python -m venv venv
 venv\Scripts\activate
 ```
 
-### Linux / Mac
+### Mac/Linux
 
 ```bash
 source venv/bin/activate
@@ -124,7 +187,7 @@ source venv/bin/activate
 
 ---
 
-## 5. Install Dependencies
+## 4. Install Dependencies
 
 ```bash
 pip install -r requirements.txt
@@ -132,15 +195,15 @@ pip install -r requirements.txt
 
 ---
 
-# Install Ollama
+## 5. Install Ollama
 
 Download Ollama:
 
-[https://ollama.com/download](https://ollama.com/download)
+[https://ollama.com](https://ollama.com)
 
 ---
 
-# Pull Phi3 Model
+## 6. Pull Phi3 Model
 
 ```bash
 ollama pull phi3
@@ -148,7 +211,25 @@ ollama pull phi3
 
 ---
 
-# Run Backend
+## 7. Create `.env`
+
+Inside `backend/.env`
+
+```env
+OLLAMA_MODEL=phi3
+
+MONGO_URL=mongodb://localhost:27017
+
+DATABASE_NAME=rag_pdf_chatbot
+
+SECRET_KEY=mysecretkey123
+
+ALGORITHM=HS256
+```
+
+---
+
+## 8. Run Backend
 
 ```bash
 uvicorn app.main:app --reload
@@ -156,13 +237,13 @@ uvicorn app.main:app --reload
 
 Backend runs on:
 
-```text
+```bash
 http://127.0.0.1:8000
 ```
 
 ---
 
-# Frontend Setup
+# 💻 Frontend Setup
 
 ## 1. Navigate to Frontend
 
@@ -170,11 +251,15 @@ http://127.0.0.1:8000
 cd frontend
 ```
 
+---
+
 ## 2. Install Dependencies
 
 ```bash
 npm install
 ```
+
+---
 
 ## 3. Run Frontend
 
@@ -184,214 +269,157 @@ npm run dev
 
 Frontend runs on:
 
-```text
+```bash
 http://localhost:5173
 ```
 
 ---
 
-# How It Works
+# 🔐 Authentication Features
 
-```text
-PDF Upload
-     ↓
-Text Extraction
-     ↓
-Chunk Splitting
-     ↓
-Embeddings Generation
-     ↓
-ChromaDB Vector Storage
-     ↓
-Retriever
-     ↓
-Ollama Phi3
-     ↓
-AI Response
+* User Signup
+* User Login
+* JWT Token Authentication
+* Protected API Routes
+
+---
+
+# 🤖 Supported Question Types
+
+## Resume Questions
+
+```txt
+What is the candidate name?
+What skills are mentioned?
+What projects are listed?
+What is the CGPA?
 ```
 
 ---
 
-# API Endpoints
+## Notes Questions
 
-## Upload PDF
+```txt
+Explain cache coherence.
+What is pipelining?
+Explain checksum method.
+```
+
+---
+
+## Research PDFs
+
+```txt
+Summarize the paper.
+What methodology is used?
+```
+
+---
+
+# 📸 Screenshots
+
+## Login Page
+
+* Modern authentication UI
+* JWT-based authentication
+
+## Upload System
+
+* Upload PDF documents
+* AI-ready processing
+
+## Chat Interface
+
+* Conversational AI experience
+* Real-time answers from PDFs
+
+---
+
+# 🔥 Future Improvements
+
+* Multi-PDF support
+* Chat history
+* Streaming AI responses
+* Source citations
+* Dark/Light themes
+* Cloud deployment
+* User-specific vector databases
+* Drag and drop upload
+* PDF preview
+* Speech-to-text input
+
+---
+
+# 🧪 Example Workflow
+
+1. User logs in
+2. Uploads PDF
+3. PDF text is extracted
+4. Embeddings are generated
+5. Chunks stored in ChromaDB
+6. User asks questions
+7. AI answers using document context
+
+---
+
+# 🚀 API Endpoints
+
+## Auth Routes
+
+### Signup
+
+```http
+POST /signup
+```
+
+### Login
+
+```http
+POST /login
+```
+
+---
+
+## PDF Routes
+
+### Upload PDF
 
 ```http
 POST /upload
 ```
 
-Uploads and processes PDF documents.
-
----
-
-## Ask Questions
+### Ask Question
 
 ```http
 POST /ask
 ```
 
-Request Body:
+---
 
-```json
-{
-  "question": "What skills are mentioned in the resume?"
-}
+# 🧠 AI Model
+
+This project uses:
+
+```txt
+Phi3 via Ollama
+```
+
+Optimized for low-end laptops with 8GB RAM.
+
+---
+
+# 👩‍💻 Author
+
+Vanshika Devi
+
+GitHub:
+
+```txt
+https://github.com/Vanshika-devi
 ```
 
 ---
 
-# Example Questions
+# ⭐ If You Like This Project
 
-* Summarize this PDF
-* What are the key skills?
-* Explain the main topic
-* What projects are mentioned?
-* Who is the author?
-* What technologies are used?
-
----
-
-# AI Pipeline
-
-## PDF Parsing
-
-* PyMuPDF extracts text from uploaded PDFs.
-
-## Chunking
-
-* LangChain RecursiveCharacterTextSplitter splits text into semantic chunks.
-
-## Embeddings
-
-* Sentence Transformers convert text into vector embeddings.
-
-## Vector Database
-
-* ChromaDB stores and retrieves semantic vectors.
-
-## Retrieval
-
-* Relevant chunks are retrieved using similarity search.
-
-## LLM
-
-* Ollama Phi3 generates context-aware responses.
-
----
-
-# OCR Support
-
-This project also supports OCR (Optical Character Recognition) for scanned and image-based PDFs.
-
-## OCR Features
-
-* Extracts text from scanned PDFs
-* Supports image-based documents
-* OCR fallback when normal text extraction fails
-* Uses Tesseract OCR with PyTesseract
-
----
-
-# Install OCR Dependencies
-
-```bash
-pip install pytesseract pillow pdf2image
-```
-
----
-
-# Install Tesseract OCR
-
-Download and install:
-
-[https://github.com/UB-Mannheim/tesseract/wiki](https://github.com/UB-Mannheim/tesseract/wiki)
-
-During installation:
-
-* Enable "Add to PATH"
-* Install for all users if possible
-
----
-
-# OCR Workflow
-
-```text
-PDF
- ↓
-Text Extraction
- ↓
-If No Text Found
- ↓
-OCR Processing
- ↓
-Extracted Text
- ↓
-Embeddings
- ↓
-Vector Search
- ↓
-LLM Response
-```
-
----
-
-# Future Improvements
-
-* JWT Authentication
-* Multi-PDF Support
-* Chat History
-* Streaming Responses
-* Source Citations
-* Docker Deployment
-* OCR Support for Scanned PDFs
-* Cloud Deployment
-* User Dashboard
-* AI Summarization
-
----
-
-# Performance Notes
-
-Optimized for:
-
-* 8GB RAM systems
-* Local AI inference
-* Lightweight embedding models
-
-Recommended:
-
-* Close unnecessary applications while running local LLMs.
-* Use smaller PDFs for faster embedding generation.
-
----
-
-# Skills Demonstrated
-
-* Full Stack Development
-* AI Integration
-* FastAPI Backend Development
-* React Frontend Development
-* Retrieval-Augmented Generation
-* Semantic Search
-* Vector Databases
-* Local LLM Deployment
-* REST API Development
-* NLP Pipelines
-
----
-
-# Resume Description
-
-## Short Version
-
-RAG PDF Chatbot | React.js, FastAPI, LangChain, ChromaDB, Ollama
-
-* Built an AI-powered Retrieval-Augmented Generation chatbot for contextual question answering from uploaded PDF documents.
-* Implemented semantic search, embeddings generation, vector database integration, and local LLM inference using Ollama.
-* Developed FastAPI backend APIs and responsive React frontend workflows for AI-driven document interaction.
-
----
-
-# License
-
-This project is for educational and portfolio purposes.
+Give this repository a star ⭐ on GitHub.
