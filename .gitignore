@@ -1,23 +1,28 @@
-# Python
 venv/
 __pycache__/
 *.pyc
+*.pyo
+*.pyd
 
-# Vector DB
-chroma_db/
 
-# Uploaded PDFs
-uploads/
-
-# Environment
 .env
 
-# Frontend
+
+chroma_db/
+
+uploads/
 node_modules/
 dist/
 
-# VS Code
 .vscode/
 
-# OS files
+
 .DS_Store
+Thumbs.db
+
+*.log
+
+.pytest_cache/
+.mypy_cache/
+.coverage
+.ipynb_checkpoints/

@@ -4,10 +4,12 @@ fastapi
 uvicorn
 python-multipart
 
-langchain
-langchain-community
-langchain-core
-langchain-text-splitters
+langchain==0.1.20
+langchain-community==0.0.38
+langchain-core==0.1.53
+langchain-text-splitters==0.0.2
+langchain-chroma==0.1.2
+langchain-huggingface==0.0.3
 
 chromadb
 
@@ -15,11 +17,17 @@ pymupdf
 pypdf
 
 sentence-transformers
-transformers
-torch
 
 ollama
 
 pytesseract
 pillow
 pdf2image
+
+python-jose
+passlib
+bcrypt==4.0.1
+
+pymongo
+python-dotenv
+email-validator

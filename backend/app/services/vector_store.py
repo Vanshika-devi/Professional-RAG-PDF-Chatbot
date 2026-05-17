@@ -1,33 +1,58 @@
-# backend/app/services/vector_store.py
-
-import shutil
 import os
 
-from langchain_community.vectorstores import (
-    Chroma
-)
+os.environ["ANONYMIZED_TELEMETRY"] = "False"
 
-from app.services.embeddings import (
-    embeddings
-)
+from chromadb.config import Settings
 
+import chromadb
+
+from langchain_chroma import Chroma
+
+from langchain_huggingface import (
+    HuggingFaceEmbeddings
+)
 
 CHROMA_DIR = "./chroma_db"
 
+embedding_model = HuggingFaceEmbeddings(
 
-def create_vector_store(documents):
+    model_name=
+    "sentence-transformers/all-MiniLM-L6-v2"
 
-    # Delete old database
-    if os.path.exists(CHROMA_DIR):
+)
 
-        shutil.rmtree(CHROMA_DIR)
+client = chromadb.PersistentClient(
+
+    path=CHROMA_DIR,
+
+    settings=Settings(
+        anonymized_telemetry=False
+    )
+)
+
+
+def create_vector_store(split_docs):
+
+    # DELETE OLD COLLECTION
+    try:
+
+        client.delete_collection(
+            "pdf_collection"
+        )
+
+    except:
+        pass
 
     vectordb = Chroma.from_documents(
-        documents=documents,
-        embedding=embeddings,
-        persist_directory=CHROMA_DIR
-    )
 
-    vectordb.persist()
+        documents=split_docs,
+
+        embedding=embedding_model,
+
+        client=client,
+
+        collection_name="pdf_collection"
+
+    )
 
     return vectordb

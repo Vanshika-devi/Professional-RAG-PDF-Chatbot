@@ -1,6 +1,7 @@
 # backend/app/services/rag_pipeline.py
 
 import os
+import uuid
 
 from langchain_text_splitters import (
     RecursiveCharacterTextSplitter
@@ -20,7 +21,6 @@ from app.services.llm_service import (
     get_llm
 )
 
-
 vectordb = None
 
 UPLOAD_DIR = "uploads"
@@ -35,30 +35,66 @@ def process_pdf(file):
 
     global vectordb
 
-    # Save uploaded PDF
+    # UNIQUE FILE NAME
+    unique_filename = (
+
+        f"{uuid.uuid4()}_"
+        f"{file.filename}"
+
+    )
+
+    # SAVE PDF
     file_path = os.path.join(
+
         UPLOAD_DIR,
-        file.filename
+        unique_filename
+
     )
 
     with open(file_path, "wb") as f:
 
         f.write(file.file.read())
 
-    print(f"PDF Saved: {file_path}")
+    print(
+        f"\nPDF STORED AT: {file_path}"
+    )
 
-    # Load PDF
+    # LOAD PDF
     documents = load_pdf(file_path)
 
     print(
-        "TOTAL DOCUMENTS:",
+        "\nTOTAL DOCUMENTS:",
         len(documents)
     )
 
-    # Split into chunks
+    if len(documents) == 0:
+
+        return (
+            "No readable text found "
+            "inside PDF."
+        )
+
+    # UNIVERSAL CHUNKING
     splitter = RecursiveCharacterTextSplitter(
-        chunk_size=1000,
-        chunk_overlap=100
+
+        chunk_size=700,
+
+        chunk_overlap=150,
+
+        separators=[
+
+            "\n\n",
+
+            "\n",
+
+            ". ",
+
+            " ",
+
+            ""
+
+        ]
+
     )
 
     split_docs = splitter.split_documents(
@@ -66,11 +102,11 @@ def process_pdf(file):
     )
 
     print(
-        "TOTAL CHUNKS:",
+        "\nTOTAL CHUNKS:",
         len(split_docs)
     )
 
-    # Create vector database
+    # CREATE VECTOR STORE
     vectordb = create_vector_store(
         split_docs
     )
@@ -85,39 +121,76 @@ def ask_question(question):
     if vectordb is None:
 
         return {
+
             "answer":
             "Please upload a PDF first.",
+
             "sources": []
+
         }
 
     try:
 
-        # Better Retriever
+        # BETTER RETRIEVAL
         retriever = vectordb.as_retriever(
-            search_type="similarity_score_threshold",
+
+            search_type="similarity",
+
             search_kwargs={
-                "score_threshold": 0.5,
-                "k": 5
+
+                "k": 12
+
             }
+
         )
 
         llm = get_llm()
 
-        # Better Prompt
+        # UNIVERSAL PROMPT
         prompt_template = """
 
-You are an expert AI assistant for answering questions from PDFs.
+You are a highly intelligent AI assistant.
 
-Rules:
-- Answer ONLY from the PDF context.
-- Do not make up facts.
-- If unsure, say:
+Your task is to answer questions ONLY
+from the provided PDF context.
+
+IMPORTANT RULES:
+
+- Carefully search through ALL context
+- Answer accurately from the document
+- Extract exact information precisely
+- Answer any type of question including:
+  - notes
+  - resumes
+  - assignments
+  - research papers
+  - books
+  - technical PDFs
+  - handwritten OCR text
+  - concepts
+  - definitions
+  - summaries
+  - formulas
+  - explanations
+  - skills
+  - projects
+  - education
+  - dates
+  - emails
+  - phone numbers
+  - technologies
+  - theoretical questions
+
+- If the answer exists in the document,
+  provide the answer clearly
+
+- If information truly does not exist,
+  reply ONLY:
   "Information not found in PDF."
-- Keep answers short and accurate.
-- For technical questions:
-  - give direct factual answers
-  - avoid assumptions
-  - avoid unnecessary explanation
+
+- Do NOT hallucinate
+- Do NOT make assumptions
+- Keep answers concise but accurate
 
 Context:
 {context}
@@ -130,27 +203,42 @@ Answer:
 """
 
         PROMPT = PromptTemplate(
+
             template=prompt_template,
+
             input_variables=[
+
                 "context",
+
                 "question"
+
             ]
+
         )
 
-        # QA Chain
         qa_chain = RetrievalQA.from_chain_type(
+
             llm=llm,
+
             retriever=retriever,
+
             return_source_documents=True,
+
+            chain_type="stuff",
+
             chain_type_kwargs={
+
                 "prompt": PROMPT
+
             }
+
         )
 
-        # Modern invoke()
-        response = qa_chain.invoke(
-            {"query": question}
-        )
+        response = qa_chain.invoke({
+
+            "query": question
+
+        })
 
         answer = response["result"]
 
@@ -158,12 +246,22 @@ Answer:
             "source_documents"
         ]
 
-        # Extract sources
+        print("\nQUESTION:", question)
+
+        print("\nANSWER:", answer)
+
         sources = []
 
-        for doc in source_docs:
+        for i, doc in enumerate(source_docs):
+
+            print(f"\nSOURCE {i+1}")
+
+            print(
+                doc.page_content[:500]
+            )
 
             sources.append({
+
                 "page":
                 doc.metadata.get(
                     "page",
@@ -172,23 +270,26 @@ Answer:
 
                 "content":
                 doc.page_content[:300]
+
             })
 
-        print(
-            "Generated Answer:",
-            answer
-        )
-
         return {
+
             "answer": answer,
+
             "sources": sources
+
         }
 
     except Exception as e:
 
-        print("ERROR:", e)
+        print("\nERROR:", e)
 
         return {
-            "answer": str(e),
+
+            "answer":
+            "Error generating response.",
+
             "sources": []
+
         }

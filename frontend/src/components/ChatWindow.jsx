@@ -1,80 +1,151 @@
-// frontend/src/components/ChatWindow.jsx
+import {
+  useState,
+  useEffect,
+  useRef
+} from "react";
 
-import { useState } from "react";
-import { askQuestion } from "../api/ragApi";
 import { motion } from "framer-motion";
 
+import {
+  askQuestion
+} from "../api/authApi";
+
 import MessageBubble from "./MessageBubble";
-import Loader from "./Loader";
 
 function ChatWindow() {
 
-  const [question, setQuestion] = useState("");
+  const [question, setQuestion] =
+    useState("");
 
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] =
+    useState([]);
 
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] =
+    useState(false);
 
-  const sendQuestion = async () => {
+  const messagesEndRef =
+    useRef(null);
 
-    if (!question) return;
+  useEffect(() => {
 
-    const userMessage = {
-      text: question,
-      sender: "user"
-    };
+    messagesEndRef.current
+      ?.scrollIntoView({
+        behavior: "smooth"
+      });
 
-    setMessages((prev) => [...prev, userMessage]);
+  }, [messages]);
 
-    setLoading(true);
+  const sendQuestion =
+    async () => {
 
-    try {
+      if (
+        !question.trim()
+      ) return;
 
-      const res = await askQuestion(question);
+      const currentQuestion =
+        question;
 
-      const aiMessage = {
-        text: res.data.answer,
-        sender: "ai"
-      };
-
-      setMessages((prev) => [...prev, aiMessage]);
-
-    } catch (error) {
+      setQuestion("");
 
       setMessages((prev) => [
+
         ...prev,
+
         {
-          text: "Backend not connected yet.",
-          sender: "ai"
+          text:
+            currentQuestion,
+
+          sender: "user"
         }
       ]);
-    }
 
-    setLoading(false);
+      try {
 
-    setQuestion("");
-  };
+        setLoading(true);
+
+        const res =
+          await askQuestion(
+            currentQuestion
+          );
+
+        console.log(
+          "AI RESPONSE:",
+          res.data
+        );
+
+        setMessages((prev) => [
+
+          ...prev,
+
+          {
+            text:
+
+              typeof res.data.answer
+              === "string"
+
+                ? res.data.answer
+
+                : "Invalid AI response",
+
+            sender: "ai"
+          }
+        ]);
+
+      } catch (error) {
+
+        console.log(error);
+
+        setMessages((prev) => [
+
+          ...prev,
+
+          {
+            text:
+              "Failed to get AI response.",
+
+            sender: "ai"
+          }
+        ]);
+
+      } finally {
+
+        setLoading(false);
+      }
+    };
 
   return (
+
     <motion.div
       className="chat-window"
-      initial={{ opacity: 0, y: 30 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.8 }}
+      initial={{
+        opacity: 0,
+        y: 20
+      }}
+      animate={{
+        opacity: 1,
+        y: 0
+      }}
     >
 
       <div className="chat-top">
 
         <div>
-          <h2>AI Assistant</h2>
+
+          <h2>
+            AI Assistant
+          </h2>
 
           <p>
-            Ask contextual questions from uploaded PDFs
+            Ask contextual questions
+            from uploaded PDFs
           </p>
+
         </div>
 
         <div className="online-status">
+
           ● Online
+
         </div>
 
       </div>
@@ -91,11 +162,14 @@ function ChatWindow() {
               </div>
 
               <h3>
-                Your AI Assistant is Ready
+                Your AI Assistant
+                is Ready
               </h3>
 
               <p>
-                Upload a document and start intelligent conversations with your data.
+                Upload a PDF and
+                start chatting
+                intelligently.
               </p>
 
             </div>
@@ -103,18 +177,31 @@ function ChatWindow() {
         }
 
         {
-          messages.map((msg, index) => (
+          messages.map(
+            (msg, index) => (
 
-            <MessageBubble
-              key={index}
-              text={msg.text}
-              sender={msg.sender}
-            />
+              <MessageBubble
+                key={index}
+                text={msg.text}
+                sender={msg.sender}
+              />
 
-          ))
+            )
+          )
         }
 
-        {loading && <Loader />}
+        {
+          loading && (
+
+            <div className="loading-box">
+
+              AI is thinking...
+
+            </div>
+          )
+        }
+
+        <div ref={messagesEndRef}></div>
 
       </div>
 
@@ -124,12 +211,33 @@ function ChatWindow() {
           type="text"
           placeholder="Ask anything from your PDF..."
           value={question}
-          onChange={(e) => setQuestion(e.target.value)}
-          onKeyDown={(e) => e.key === "Enter" && sendQuestion()}
+          onChange={(e) =>
+            setQuestion(
+              e.target.value
+            )
+          }
+          onKeyDown={(e) => {
+
+            if (
+              e.key === "Enter"
+            ) {
+
+              sendQuestion();
+            }
+          }}
         />
 
-        <button onClick={sendQuestion}>
-          Send
+        <button
+          onClick={sendQuestion}
+          disabled={loading}
+        >
+
+          {
+            loading
+              ? "Thinking..."
+              : "Send"
+          }
+
         </button>
 
       </div>

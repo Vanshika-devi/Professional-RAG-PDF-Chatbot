@@ -1,5 +1,3 @@
-# backend/app/services/llm_service.py
-
 from langchain_community.llms import (
     Ollama
 )
@@ -8,7 +6,11 @@ from langchain_community.llms import (
 def get_llm():
 
     llm = Ollama(
-        model="phi3"
+
+        model="phi3",
+
+        temperature=0.1
+
     )
 
     return llm

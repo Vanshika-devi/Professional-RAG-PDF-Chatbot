@@ -1,38 +1,123 @@
-// frontend/src/components/UploadBox.jsx
+import {
+  useState,
+  useEffect
+} from "react";
 
 import { motion } from "framer-motion";
-import { uploadPDF } from "../api/ragApi";
+
+import toast from "react-hot-toast";
+
+import {
+  uploadPDF
+} from "../api/authApi";
 
 function UploadBox() {
 
-  const handleUpload = async (e) => {
+  const [file, setFile] =
+    useState(null);
 
-    const file = e.target.files[0];
+  const [uploadedFile,
+    setUploadedFile] =
+    useState("");
 
-    if (!file) return;
+  const [uploading,
+    setUploading] =
+    useState(false);
 
-    const formData = new FormData();
+  useEffect(() => {
 
-    formData.append("file", file);
+    const savedFile =
+      localStorage.getItem(
+        "activePDF"
+      );
 
-    try {
+    if (savedFile) {
 
-      await uploadPDF(formData);
-
-      alert("PDF Uploaded Successfully");
-
-    } catch (error) {
-
-      alert("Upload Failed");
+      setUploadedFile(
+        savedFile
+      );
     }
-  };
+
+  }, []);
+
+  const handleUpload =
+    async () => {
+
+      if (!file) {
+
+        toast.error(
+          "Please Select a PDF"
+        );
+
+        return;
+      }
+
+      try {
+
+        setUploading(true);
+
+        toast.loading(
+          "Processing PDF...",
+          {
+            id: "upload"
+          }
+        );
+
+        const formData =
+          new FormData();
+
+        formData.append(
+          "file",
+          file
+        );
+
+        await uploadPDF(
+          formData
+        );
+
+        setUploadedFile(
+          file.name
+        );
+
+        localStorage.setItem(
+          "activePDF",
+          file.name
+        );
+
+        toast.success(
+          "PDF Uploaded Successfully",
+          {
+            id: "upload"
+          }
+        );
+
+      } catch (error) {
+
+        toast.error(
+          "Upload Failed",
+          {
+            id: "upload"
+          }
+        );
+
+      } finally {
+
+        setUploading(false);
+      }
+    };
 
   return (
+
     <motion.div
       className="upload-box"
-      initial={{ opacity: 0, y: 40 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.7 }}
+      initial={{
+        opacity: 0,
+        y: 40
+      }}
+      animate={{
+        opacity: 1,
+        y: 0
+      }}
     >
 
       <div className="upload-left">
@@ -42,21 +127,15 @@ function UploadBox() {
         </div>
 
         <h2>
-          Upload PDF & Chat With AI
+          Upload PDF & Chat
+          With AI
         </h2>
 
         <p>
-          Upload documents and get intelligent contextual answers instantly using RAG pipelines and semantic search.
+          Upload documents and
+          ask intelligent
+          contextual questions.
         </p>
-
-        <div className="feature-tags">
-
-          <span>FastAPI</span>
-          <span>LangChain</span>
-          <span>ChromaDB</span>
-          <span>Ollama</span>
-
-        </div>
 
       </div>
 
@@ -68,13 +147,73 @@ function UploadBox() {
             📄
           </div>
 
-          <h3>Choose PDF File</h3>
+          <h3>
+            Upload PDF
+          </h3>
 
-          <input
-            type="file"
-            accept="application/pdf"
-            onChange={handleUpload}
-          />
+          <label className="custom-file-upload">
+
+            <input
+              type="file"
+              accept="application/pdf"
+              onChange={(e) =>
+                setFile(
+                  e.target.files[0]
+                )
+              }
+            />
+
+            Choose PDF
+
+          </label>
+
+          {
+            file && (
+
+              <div className="file-preview">
+
+                <div className="file-label">
+                  Selected File
+                </div>
+
+                <div className="file-name">
+                  {file.name}
+                </div>
+
+              </div>
+            )
+          }
+
+          {
+            uploadedFile && (
+
+              <div className="uploaded-file-box">
+
+                <div className="uploaded-label">
+                  Active PDF
+                </div>
+
+                <div className="uploaded-name">
+                  {uploadedFile}
+                </div>
+
+              </div>
+            )
+          }
+
+          <button
+            className="upload-btn"
+            onClick={handleUpload}
+            disabled={uploading}
+          >
+
+            {
+              uploading
+                ? "Processing..."
+                : "Upload PDF"
+            }
+
+          </button>
 
         </div>
 

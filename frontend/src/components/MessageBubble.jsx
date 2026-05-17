@@ -1,8 +1,16 @@
-function MessageBubble({ text, sender }) {
+function MessageBubble({
+  text,
+  sender
+}) {
 
   return (
-    <div className={`message ${sender}`}>
+
+    <div
+      className={`message ${sender}`}
+    >
+
       <p>{text}</p>
+
     </div>
   );
 }
