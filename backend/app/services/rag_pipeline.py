@@ -74,12 +74,12 @@ def process_pdf(file):
             "inside PDF."
         )
 
-    # UNIVERSAL CHUNKING
+    # BETTER CHUNKING
     splitter = RecursiveCharacterTextSplitter(
 
-        chunk_size=700,
+        chunk_size=500,
 
-        chunk_overlap=150,
+        chunk_overlap=80,
 
         separators=[
 
@@ -138,7 +138,7 @@ def ask_question(question):
 
             search_kwargs={
 
-                "k": 12
+                "k": 5
 
             }
 
@@ -146,51 +146,48 @@ def ask_question(question):
 
         llm = get_llm()
 
-        # UNIVERSAL PROMPT
+        # STRICT UNIVERSAL PROMPT
         prompt_template = """
 
-You are a highly intelligent AI assistant.
+You are a strict AI assistant.
 
-Your task is to answer questions ONLY
+Answer the question ONLY
 from the provided PDF context.
 
 IMPORTANT RULES:
 
-- Carefully search through ALL context
-- Answer accurately from the document
-- Extract exact information precisely
-- Answer any type of question including:
-  - notes
+- Do NOT use outside knowledge
+- Do NOT guess answers
+- Do NOT hallucinate
+- Carefully search the context
+- Extract exact information accurately
+- Keep answers concise and clear
+
+- If OCR text is corrupted,
+  answer only from readable content
+
+- Supported document types:
   - resumes
+  - notes
   - assignments
   - research papers
-  - books
   - technical PDFs
-  - handwritten OCR text
-  - concepts
+  - OCR PDFs
+
+- Supported questions:
   - definitions
   - summaries
+  - concepts
   - formulas
-  - explanations
+  - resume details
   - skills
   - projects
   - education
-  - dates
-  - emails
-  - phone numbers
-  - technologies
   - theoretical questions
 
-- If the answer exists in the document,
-  provide the answer clearly
-
-- If information truly does not exist,
+- If answer is not found,
   reply ONLY:
   "Information not found in PDF."
-
-- Do NOT hallucinate
-- Do NOT make assumptions
-- Keep answers concise but accurate
 
 Context:
 {context}
