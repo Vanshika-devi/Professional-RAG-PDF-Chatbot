@@ -2,7 +2,7 @@
 
 An AI-powered **RAG (Retrieval-Augmented Generation) PDF Chatbot** built using **FastAPI, React, LangChain, ChromaDB, and Ollama**.
 
-This application allows users to upload a PDF and intelligently chat with the document using local AI models.
+This application allows users to upload multiple PDFs and intelligently chat with their documents using local AI models.
 
 The system supports:
 
@@ -17,7 +17,7 @@ The system supports:
 
 # 🚀 Key Highlights
 
-- Universal Single-Document PDF Question Answering
+- Multi-PDF Question Answering System
 - OCR Support for Scanned PDFs
 - JWT Authentication System
 - Semantic Search using ChromaDB
@@ -26,13 +26,14 @@ The system supports:
 - Optimized for Low-End PCs (8GB RAM)
 - AI-Powered Contextual Understanding
 - Resume & Notes Intelligence System
+- Multi-Document Semantic Retrieval
 
 ---
 
 # ✨ Features
 
 - 🔐 JWT Authentication System
-- 📄 Upload and process PDFs
+- 📄 Upload and process multiple PDFs
 - 🤖 AI-powered contextual question answering
 - 🧠 Retrieval-Augmented Generation (RAG)
 - 🔎 Semantic search using vector embeddings
@@ -43,13 +44,17 @@ The system supports:
 - 🎨 React frontend with modern UI
 - 🧩 LangChain integration
 - 🖥 Local LLM support using Ollama + Phi3
-- 📚 Universal single-document PDF understanding
+- 📚 Multi-document PDF understanding
 - 🔍 Resume information extraction
 - 🧾 Technical note understanding
 - 📑 Research paper summarization
 - 🔒 Protected API routes using JWT
 - 📂 Local PDF storage system
 - 🧠 Semantic chunk retrieval pipeline
+- 📑 Multi-document semantic retrieval
+- ⚡ MMR-based intelligent retrieval
+- 🧠 Context compression retriever
+- 📌 Metadata-aware source tracking
 
 ---
 
@@ -97,6 +102,8 @@ The system supports:
 - Sentence Transformers
 - RecursiveCharacterTextSplitter
 - RetrievalQA Chain
+- ContextualCompressionRetriever
+- MMR Retrieval
 - Ollama
 - Phi3 LLM
 
@@ -113,24 +120,47 @@ The system supports:
 
 ---
 
+## Database & Storage
+
+- MongoDB
+- ChromaDB
+- Local File Storage
+- Vector Embeddings Storage
+
+---
+
+## Authentication & Security
+
+- JWT Token Authentication
+- Protected API Routes
+- Password Hashing
+- Secure Login System
+- Bearer Authentication
+
+---
+
 # 🧠 AI Capabilities
 
 - Contextual Question Answering
 - Semantic Retrieval
+- Multi-PDF Understanding
 - Resume Parsing
 - Notes Question Answering
 - OCR-based Document Understanding
 - Technical Document QA
 - AI-powered Summarization
-- Semantic Context Matching
+- Context Compression Retrieval
+- Intelligent Multi-Chunk Retrieval
 
 ---
 
 # 🧠 How It Works
 
-## Step 1 — Upload PDF
+## Step 1 — Upload PDFs
 
-The uploaded PDF is stored inside:
+Users can upload multiple PDFs one by one.
+
+Uploaded PDFs are stored inside:
 
 ```bash
 backend/uploads/
@@ -149,17 +179,23 @@ The backend extracts text using:
 
 ## Step 3 — Chunking
 
-The document is split into semantic chunks using:
+Documents are split into semantic chunks using:
 
 ```python
 RecursiveCharacterTextSplitter
 ```
 
+with optimized chunking for:
+- notes
+- resumes
+- research papers
+- OCR documents
+
 ---
 
 ## Step 4 — Generate Embeddings
 
-Embeddings are created using:
+Embeddings are generated using:
 
 ```python
 sentence-transformers/all-MiniLM-L6-v2
@@ -175,13 +211,27 @@ Embeddings are stored in:
 backend/chroma_db/
 ```
 
+Each uploaded PDF is added into the vector database using semantic embeddings.
+
 ---
 
-## Step 6 — Ask Questions
+## Step 6 — Intelligent Retrieval
 
-User questions are semantically matched against stored chunks.
+The system uses:
 
-The relevant context is sent to the Phi3 model through Ollama.
+- MMR Retrieval
+- Context Compression Retriever
+- Semantic Similarity Search
+
+to retrieve the most relevant chunks across multiple uploaded PDFs.
+
+---
+
+## Step 7 — AI Question Answering
+
+The retrieved context is sent to the Phi3 model through Ollama.
+
+The AI answers ONLY using retrieved PDF context.
 
 ---
 
@@ -404,7 +454,7 @@ Modern JWT authentication system.
 
 ## Upload System
 
-Upload and process PDFs intelligently.
+Upload and process multiple PDFs intelligently.
 
 ## Chat Interface
 
@@ -448,7 +498,7 @@ POST /ask
 
 # 🔥 Future Improvements
 
-- Multi-PDF support
+- Simultaneous multi-file upload
 - Chat history
 - Streaming AI responses
 - Source citations
@@ -459,18 +509,20 @@ POST /ask
 - Speech-to-text input
 - AI-generated summaries
 - PDF highlighting
+- Real-time token streaming
 
 ---
 
 # 🧪 Example Workflow
 
 1. User logs in
-2. Uploads a PDF
+2. Uploads multiple PDFs
 3. PDF text is extracted
 4. Embeddings are generated
 5. Chunks stored in ChromaDB
 6. User asks questions
-7. AI answers using document context
+7. AI retrieves relevant chunks
+8. Phi3 generates contextual answers
 
 ---
 
