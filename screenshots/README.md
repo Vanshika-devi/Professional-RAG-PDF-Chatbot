@@ -14,6 +14,8 @@
 
 ### AI Response Example
 ![AI Response](screenshots/ai-response-1.png)
+![AI Response](screenshots/ai-response-2.png)
+![AI Response](screenshots/ai-response-3.png)
 
 ### PDF Summarization
 ![Summary](screenshots/ai-response-2.png)
