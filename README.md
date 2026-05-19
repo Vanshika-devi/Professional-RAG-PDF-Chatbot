@@ -53,6 +53,18 @@ The system supports:
 
 ---
 
+# 🐍 Python Version
+
+Recommended Python version:
+
+```txt
+Python 3.11.9
+```
+
+This project was tested using Python 3.11 with LangChain, ChromaDB, FastAPI, and Ollama.
+
+---
+
 # 📸 Screenshots
 
 ## Login Page
