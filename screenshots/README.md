@@ -1,24 +1,26 @@
 ## Screenshots
 
 ### Home Page
-![Home](screenshots/home-page.png)
+![Home](home-page.png)
 
 ### Login Page
-![Login](screenshots/login-page.png)
+![Login](login-page.png)
 
 ### Signup Page
-![Signup](screenshots/signup-page.png)
+![Signup](signup-page.png)
 
 ### Chat Interface
-![Chat](screenshots/chat-interface.png)
+![Chat](chat-interface.png)
 
 ### AI Response Example
-![AI Response](screenshots/ai-response-1.png)
-![AI Response](screenshots/ai-response-2.png)
-![AI Response](screenshots/ai-response-3.png)
+![AI Response](ai-response-1.png)
+
+![AI Response](ai-response-2.png)
+
+![AI Response](ai-response-3.png)
 
 ### PDF Summarization
-![Summary](screenshots/ai-response-2.png)
+![Summary](ai-response-2.png)
 
 ### Backend Structure
-![Backend](screenshots/backend-code.png)
+![Backend](backend-code.png)
