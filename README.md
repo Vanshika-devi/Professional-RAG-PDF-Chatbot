@@ -53,6 +53,48 @@ The system supports:
 
 ---
 
+# 📸 Screenshots
+
+## Login Page
+
+Modern JWT authentication login system.
+
+![Login](screenshots/login-page.png)
+
+---
+
+## Signup Page
+
+Secure user registration interface.
+
+![Signup](screenshots/signup-page.png)
+
+---
+
+## Home Page
+
+Main landing page for uploading PDFs and interacting with AI.
+
+![Home](screenshots/home-page.png)
+
+---
+
+## Chat Interface
+
+Real-time AI-powered contextual conversations with uploaded PDFs.
+
+![Chat](screenshots/chat-interface.png)
+
+---
+
+# 📂 Additional Screenshots
+
+More technical screenshots and AI response examples are available here:
+
+👉 [View Additional Screenshots](screenshots/README.md)
+
+---
+
 # 🛠 Tech Stack
 
 ## Frontend
@@ -244,6 +286,14 @@ rag-pdf-chatbot/
 │   ├── package.json
 │   └── vite.config.js
 │
+├── screenshots/
+│   ├── README.md
+│   ├── login-page.png
+│   ├── signup-page.png
+│   ├── home-page.png
+│   ├── chat-interface.png
+│   └── ai-response-1.png
+│
 ├── .gitignore
 └── README.md
 ```
@@ -420,22 +470,6 @@ Summarize the paper.
 What methodology is used?
 What are the conclusions?
 ```
-
----
-
-# 📸 Screenshots
-
-## Login Page
-
-Modern JWT authentication system.
-
-## Upload System
-
-Upload and process PDFs intelligently.
-
-## Chat Interface
-
-Real-time AI-powered conversations with documents.
 
 ---
 
